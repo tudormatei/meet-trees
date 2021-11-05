@@ -10,14 +10,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 
 db = SQLAlchemy(app)
 
-class User(db.Model):
+class Events(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)
-    username = db.Column("username", db.String(15), unique=True)
-    password = db.Column("password", db.String(100), unique=True)
+    name = db.Column("name", db.String(15), unique=True)
+    tag = db.Column("tag", db.String(15), unique=False)
+    location = db.Column("location", db.String(15), unique=False)
 
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
+
+    def __init__(self, name, location):
+        self.name = name
+        self.tag = 'event'
+        self.location = location
 
 
 @app.route('/')
@@ -25,38 +28,30 @@ def index():
     return '<h1>FLASK APP IS RUNNING!</h1>'
 
 
-@app.route('/api/register', methods=['POST'])
-def register():
-    content = request.get_json(force=True)
-    username = content['username']
-    password = content['password']
+@app.route('/api/events', methods=['GET'])
+def get_event_data():
+    # name = Events('event2', 'loc2')
+    # db.session.add(name)
+    # db.session.commit()
 
-    found_user = User.query.filter_by(username=username).first()
-    if not found_user:
-        user = User(username=username, password=password)
-        db.session.add(user)
-        db.session.commit()
-        print('username is not taken, inserted into database')
-        return {'status':'ok'}
-    else:
-        print('username is taken')
-        return {'status':'not'}
+    # return 'muie'
 
+    events = Events.query.filter_by(tag='event').all()
 
-@app.route('/api/login', methods=['POST'])
-def login():
-    content = request.get_json(force=True)
-    username = content['username']
-    password = content['password']
+    # # dict = {}
+    # # index = 1
+    # # for event in events:
+    # #     dict[index] = event.name
+    # #     index = index + 1
+    # #     print(event.name)
 
-    found_user = User.query.filter_by(username=username).first()
-    found_password = User.query.filter_by(password=password).first()
-    if found_user and found_password:
-        print('login successful')
-        return {'status':'ok', 'username':username}
-    else:
-        print('cant login')
-        return {'status':'not'}
+    list = []
+    for event in events:
+        dict = {}
+        dict[event._id] = [event.name, event.location]
+        list.append(dict)
+
+    return jsonify(list)
 
 
 if __name__ == '__main__':
