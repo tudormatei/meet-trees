@@ -41,11 +41,13 @@ def register():
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    content = request.json
-    username = content['username']
-    password = content['password']
+    # content = request.json
+    # username = content['username']
+    # password = content['password']
 
-    return f'LOGIN: username is {username}, password is {password}'
+    
+
+    return "uc"
 
 
 if __name__ == '__main__':
