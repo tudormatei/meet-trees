@@ -2,7 +2,8 @@ export default function Events(events) {
   const listItems = events.events.map((event, index) => {
     return (
       <li key={index}>
-        Nume eveniment: {event[index + 1][0]} cu locatie: {event[index + 1][1]}
+        Nume eveniment: {event[index + 1][0]} cu locatie: {event[index + 1][1]}{" "}
+        la data de: {event[index + 1][2]}
       </li>
     );
   });
