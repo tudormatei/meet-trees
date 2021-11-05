@@ -31,21 +31,21 @@ def index():
 
 
 @app.route('/api/register', methods=['POST'])
-def result():
+def register():
     content = request.json
-    user = content['user']
+    username = content['username']
     password = content['password']
 
-    return f'REGISTER: username is {user}, password is {password}'
+    return f' REGISTER: username is {username}, password is {password}'
 
 
 @app.route('/api/login', methods=['POST'])
-def result():
+def login():
     content = request.json
-    user = content['user']
+    username = content['username']
     password = content['password']
 
-    return f'LOGIN: username is {user}, password is {password}'
+    return f'LOGIN: username is {username}, password is {password}'
 
 
 if __name__ == '__main__':
