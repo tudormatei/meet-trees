@@ -54,6 +54,25 @@ def get_event_data():
     return jsonify(list)
 
 
+@app.route('/api/create', methods=['POST'])
+def create_event():
+    content = request.get_json(force=True)
+    name = content['name']
+    location = content['location']
+
+    exists = Events.query.filter_by(name=name).first()
+    if not exists:
+        event = Events(name, location)
+        db.session.add(event)
+        db.session.commit()
+        
+        print('doesnt exist')
+        return {'status':'ok'}
+    else:
+        print('event exists')
+        return {'status':'not okay'}
+
+
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
