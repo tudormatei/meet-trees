@@ -52,7 +52,7 @@ def login():
     username = content['username']
     password = content['password']
 
-    return {'stuts':'ok'}
+    return {'status':'ok'}
 
 
 if __name__ == '__main__':
