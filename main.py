@@ -16,13 +16,15 @@ class Events(db.Model):
     tag = db.Column("tag", db.String(15), unique=False)
     location = db.Column("location", db.String(15), unique=False)
     date = db.Column("date", db.String(15), unique=False)
+    codes = db.Column("codes", db.PickleType, nullable=True)
 
 
-    def __init__(self, name, location, date):
+    def __init__(self, name, location, date, codes):
         self.name = name
         self.tag = 'event'
         self.location = location
         self.date = date
+        self.codes = codes
 
 
 @app.route('/')
@@ -50,7 +52,7 @@ def get_event_data():
     list = []
     for event in events:
         dict = {}
-        dict[event._id] = [event.name, event.location, event.date]
+        dict[event._id] = [event.name, event.location, event.date, event.codes]
         list.append(dict)
 
     return jsonify(list)
@@ -59,13 +61,16 @@ def get_event_data():
 @app.route('/api/create', methods=['POST'])
 def create_event():
     content = request.get_json(force=True)
+
     name = content['name']
     location = content['location']
     date = content['date']
 
+    codes_arr = content["code"]
+
     exists = Events.query.filter_by(name=name).first()
     if not exists:
-        event = Events(name, location, date)
+        event = Events(name, location, date, codes_arr)
         db.session.add(event)
         db.session.commit()
         
