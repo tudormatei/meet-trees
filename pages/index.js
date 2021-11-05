@@ -1,28 +1,30 @@
-export default function Login() {
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const user = {
-      username: e.target[0].value,
-      password: e.target[1].value,
-    };
-    console.log(user);
-    const res = await fetch("http://localhost:5000/api/login", {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(user),
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => console.log(`internal server error ${e}`));
-  };
+export default function Events(events) {
+  const listItems = events.events.map((event, index) => {
+    return (
+      <li key={index}>
+        Nume eveniment: {event[index + 1][0]} cu locatie: {event[index + 1][1]}
+      </li>
+    );
+  });
   return (
-    <form onSubmit={onSubmit}>
-      <label htmlFor="username">Username</label>
-      <input type="text" name="username" id="username"></input>
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password"></input>
-      <input type="submit"></input>
-    </form>
+    <>
+      <h1>Lista evenimente</h1>
+      <ul>{listItems}</ul>
+    </>
   );
+}
+
+export async function getServerSideProps(context) {
+  let events;
+  const res = await fetch("http://localhost:5000/api/events", {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      events = res;
+    })
+    .catch((e) => console.log(`internal server error ${e}`));
+  return {
+    props: { events },
+  };
 }
