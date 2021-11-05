@@ -36,12 +36,12 @@ def register():
     username = content['username']
     password = content['password']
 
-    return f' REGISTER: username is {username}, password is {password}'
+    return jsonify(f' REGISTER: username is {username}, password is {password}')
 
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    content = request.json
+    content = request.get_json(force=True)
     username = content['username']
     password = content['password']
 
