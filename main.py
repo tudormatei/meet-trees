@@ -10,13 +10,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 
 db = SQLAlchemy(app)
 
-class users(db.Model):
+class User(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)
     username = db.Column("username", db.String(15), unique=True)
     password = db.Column("password", db.String(100), unique=True)
 
-    def __init__(self, name, password):
-        self.username = name
+    def __init__(self, username, password):
+        self.username = username
         self.password = password
 
 
@@ -39,11 +39,16 @@ def register():
     username = content['username']
     password = content['password']
 
-    user = User(username=username, password=password)
-    db.session.add(user)
-    db.session.commit()
-
-    return jsonify(f'REGISTERED USER: username is {username}, password is {password}')
+    found_user = User.query.filter_by(username=username).first()
+    if not found_user:
+        user = User(username=username, password=password)
+        db.session.add(user)
+        db.session.commit()
+        print('username is not taken, inserted into database')
+        return {'status':'ok'}
+    else:
+        print('username is taken')
+        return {'status':'not'}
 
 
 @app.route('/api/login', methods=['POST'])
@@ -52,7 +57,14 @@ def login():
     username = content['username']
     password = content['password']
 
-    return {'status':'ok'}
+    found_user = User.query.filter_by(username=username).first()
+    found_password = User.query.filter_by(password=password).first()
+    if found_user and found_password:
+        print('login successful')
+        return {'status':'ok'}
+    else:
+        print('cant login')
+        return {'status':'not'}
 
 
 if __name__ == '__main__':
