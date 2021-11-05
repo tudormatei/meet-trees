@@ -61,7 +61,7 @@ def login():
     found_password = User.query.filter_by(password=password).first()
     if found_user and found_password:
         print('login successful')
-        return {'status':'ok'}
+        return {'status':'ok', 'username':username}
     else:
         print('cant login')
         return {'status':'not'}
