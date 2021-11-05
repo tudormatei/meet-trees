@@ -1,1 +1,2 @@
-# meet-trees-backend
+# meet-trees
+Frontend + Backend
