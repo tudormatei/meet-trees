@@ -20,14 +20,6 @@ class User(db.Model):
         self.password = password
 
 
-
-def check_code(content):
-    for item in content:
-        print(f"code is {item['code']}")
-
-    return True
-
-
 @app.route('/')
 def index():
     return '<h1>FLASK APP IS RUNNING!</h1>'
