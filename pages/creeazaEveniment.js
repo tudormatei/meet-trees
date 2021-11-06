@@ -40,55 +40,144 @@ export default function creeazaEveniment() {
   };
 
   return (
-    <>
+    <div className="container">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="#">
+          <img
+            src="/icon.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt=""
+          />
+          Meet Trees
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                Lista evenimente
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="#">
+                Creeaza un eveniment
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
       <form onSubmit={onSubmit}>
-        <label htmlFor="nume-eveniment">Nume eveniment</label>
-        <input type="text" name="numeeveniment" id="nume-evenimet"></input>
-        <label htmlFor="locatie-eveniment">Locatie eveniment</label>
-        <input
-          type="text"
-          name="locatieeveniment"
-          id="locatie-eveniment"
-        ></input>
-        <label htmlFor="locatie-ridicat-puieti">Locatie ridicat puieti</label>
-        <input
-          type="text"
-          name="locatieridicatpuieti"
-          id="locatie-ridicat-puieti"
-        ></input>
-        <label htmlFor="data-start-eveniment">Data start eveniment</label>
-        <input
-          type="date"
-          name="datastarteveniment"
-          id="data-start-eveniment"
-        ></input>
-        <label htmlFor="ora-start-eveniment">Ora start eveniment</label>
-        <input
-          type="time"
-          name="orastarteveniment"
-          id="ora-start-eveniment"
-        ></input>
-        <label htmlFor="data-sfarsit-eveniment">Data sfarsit eveniment</label>
-        <input
-          type="date"
-          name="datasfarsiteveniment"
-          id="data-sfarsit-eveniment"
-        ></input>
-        <label htmlFor="ora-sfarsit-eveniment">Ora sfarsit eveniment</label>
-        <input
-          type="time"
-          name="orasfarsiteveniment"
-          id="ora-sfarsit-eveniment"
-        ></input>
-        <label htmlFor="text">Numar puieti eveniment</label>
-        <input
-          type="text"
-          name="numarpuietieveniment"
-          id="numar-puieti-eveniment"
-        ></input>
-        <input type="submit"></input>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon1">
+            Nume eveniment
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            name="numeeveniment"
+            aria-label="Nume eveniment"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon2">
+            Locatie eveniment
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            name="locatieeveniment"
+            aria-label="Locatie eveniment"
+            aria-describedby="basic-addon2"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon3">
+            Locatie ridicat puieti
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            name="locatieridicatpuieti"
+            aria-label="Locatie ridicat puieti"
+            aria-describedby="basic-addon3"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon4">
+            Data start eveniment
+          </span>
+          <input
+            type="date"
+            className="form-control"
+            name="datastarteveniment"
+            aria-label="Data start eveniment"
+            aria-describedby="basic-addon4"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon5">
+            Ora start eveniment
+          </span>
+          <input
+            type="time"
+            className="form-control"
+            name="orastarteveniment"
+            aria-label="Ora start eveniment"
+            aria-describedby="basic-addon5"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon6">
+            Data sfarsit eveniment
+          </span>
+          <input
+            type="date"
+            className="form-control"
+            name="datasfarsiteveniment"
+            aria-label="Data sfarsit eveniment"
+            aria-describedby="basic-addon6"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon7">
+            Ora sfarsit eveniment
+          </span>
+          <input
+            type="time"
+            className="form-control"
+            name="orasfarsiteveniment"
+            aria-label="Ora sfarsit eveniment"
+            aria-describedby="basic-addon7"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon8">
+            Numar puieti eveniment
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            name="numarpuietieveniment"
+            aria-label="Numar puieti eveniment"
+            aria-describedby="basic-addon8"
+          />
+        </div>
+        <input type="submit" className="btn btn-success"></input>
       </form>
       <ul>{coduri}</ul>
-    </>
+    </div>
   );
 }
