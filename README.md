@@ -5,9 +5,9 @@
 In Meet Trees, un cetatean responsabil poate sa organizeze evenimente de plantat puieti la o locatie aleasa de el, iar alti cetateni responsabili se pot alatura cauzei nobile.
 In lista de evenimente comuna pentru toata lumea, exista doua categorii.
 
-1. Evenimente viitoare
+1. <b>Evenimente viitoare:</b>
    In aceasta categorie, sunt listate mai multe evenimente, iar oricine poate alege sa participe la eveniment prin rezervarea unui numar de puieti - click pe <i>Vreau sa particip</i>
-2. Evenimente curente si trecute
+2. <b>Evenimente curente si trecute:</b>
    Aceasta categorie e formata din evenimente care au inceput deja, iar cei care au participat la eveniment isi pot valida codurile.
 
 ## Aspecte tehnice
