@@ -115,6 +115,7 @@ def create_event():
 @app.route('/api/verify', methods=['POST'])
 def verify():
     content = request.get_json(force=True)
+
     code = content['codes']
     name = content['name']
     email = content['email']
@@ -122,13 +123,26 @@ def verify():
     all_codes = Events.query.filter_by(name=name).first()
     all_codes = all_codes.codes
     
-    found = None
-    for x_code in all_codes:
-        found = False
-        for y_code in code:
-            if x_code == y_code:
-                found = True
-        if found == False:
+    # found = None
+    # for x_code in all_codes:
+    #     found = False
+    #     for y_code in code:
+    #         print(f"{y_code} and {x_code}")
+    #         if x_code == y_code:
+    #             found = True
+    #     if found == False:
+    #         return {"status":"not"}
+
+    bool = None
+    for y_code in code:
+        bool = False
+        for x_code in all_codes:
+            if y_code != x_code:
+                bool = False
+            else:
+                bool = True
+                break
+        if bool == False:
             return {"status":"not"}
 
 
@@ -141,6 +155,7 @@ def verify():
         result = int(email.points) + 1
         email.points = f"{result}"
         db.session.commit()
+
     else:
         print('email is not yet registered must create event first')
 
