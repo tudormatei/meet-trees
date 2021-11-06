@@ -34,22 +34,10 @@ def index():
 
 @app.route('/api/events', methods=['GET'])
 def get_event_data():
-    # name = Events('event2', 'loc2')
-    # db.session.add(name)
-    # db.session.commit()
-
-    # return 'muie'
-
     events = Events.query.filter_by(tag='event').all()
 
-    # # dict = {}
-    # # index = 1
-    # # for event in events:
-    # #     dict[index] = event.name
-    # #     index = index + 1
-    # #     print(event.name)
-
     list = []
+    
     for event in events:
         dict = {}
         dict[event._id] = [event.name, event.location, event.date, event.codes]
@@ -65,10 +53,10 @@ def create_event():
     name = content['name']
     location = content['location']
     date = content['date']
-
     codes_arr = content["code"]
 
     exists = Events.query.filter_by(name=name).first()
+
     if not exists:
         event = Events(name, location, date, codes_arr)
         db.session.add(event)
