@@ -136,8 +136,9 @@ def update_event():
     event = Events.query.filter_by(name=name).first()
     
     print(event.remainingCodes)
-    if event.remainingCodes - amount > 0:
-        event.remainingCodes = event.remainingCodes - amount
+    if int(event.remainingCodes) - int(amount) > 0:
+        result = int(event.remainingCodes) - int(amount)
+        event.remainingCodes = f"{result}"
         print(event.remainingCodes)
         db.session.commit()
         return {'status':'ok','remainingCodes':event.remainingCodes}
