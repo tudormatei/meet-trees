@@ -27,10 +27,12 @@ export default function Events(events) {
     e.preventDefault();
     let body = {
       name: eventName,
+      email: e.target.email.value,
       codes: [],
     };
+    console.log(body);
     for (let i = 0; i < numarCoduriDeIntrodus; i++) {
-      body.codes[i] = e.target[i].value;
+      body.codes[i] = e.target[i + 1].value;
     }
     const res = await fetch("http://localhost:5000/api/verify", {
       method: "POST",
@@ -44,7 +46,9 @@ export default function Events(events) {
           );
           setStatusVerificare("danger");
         } else {
-          setTextVerificare("Codurile au fost verificate cu succes.");
+          setTextVerificare(
+            `Codurile au fost verificate cu succes. Felicitari, ai plantat ${res.email} puieti in total pe acest cont.`
+          );
           setStatusVerificare("success");
         }
       });
@@ -67,35 +71,60 @@ export default function Events(events) {
 
   const templateText = (eventInfo) => {
     return (
-      <ul className="list-group">
-        <li className="list-group-item">
-          <b>Nume:</b> {eventInfo[0]}
-        </li>
-        <li className="list-group-item">
-          <b>Locatie:</b> {eventInfo[1]}
-        </li>
-        <li className="list-group-item">
-          <b>Data inceput:</b> {eventInfo[2]}
-        </li>
-        <li className="list-group-item">
-          <b>Ora inceput:</b> {eventInfo[3]}
-        </li>
-        <li className="list-group-item">
-          <b>Data sfarsit:</b> {eventInfo[4]}
-        </li>
-        <li className="list-group-item">
-          <b>Ora sfarsit:</b> {eventInfo[5]}
-        </li>
-        <li className="list-group-item">
-          <b>Puiteti de plantat:</b> {eventInfo[6].length}
-        </li>
-        <li className="list-group-item">
-          <b>Locatie ridicare puieti:</b> {eventInfo[7]}
-        </li>
-        <li className="list-group-item">
-          <b>Puieti nerevendicati:</b> {eventInfo[8]}
-        </li>
-      </ul>
+      <div className="accordion" id={`a${eventInfo[10]}accordion`}>
+        <div className="accordion-item">
+          <h2 className="accordion-header" id={`a${eventInfo[10]}heading`}>
+            <button
+              className="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target={`#a${eventInfo[10]}collapseOne`}
+              aria-expanded="false"
+              aria-controls={`a${eventInfo[10]}collapse`}
+            >
+              {eventInfo[0]}
+            </button>
+          </h2>
+          <div
+            id={`a${eventInfo[10]}collapseOne`}
+            className="accordion-collapse collapse"
+            aria-labelledby={`a${eventInfo[10]}heading`}
+            data-bs-parent={`#a${eventInfo[10]}accordion`}
+          >
+            <div className="accordion-body">
+              <ul className="list-group">
+                <li className="list-group-item">
+                  <b>Locatie:</b> {eventInfo[1]}
+                </li>
+                <li className="list-group-item">
+                  <b>Data inceput:</b> {eventInfo[2]}
+                </li>
+                <li className="list-group-item">
+                  <b>Ora inceput:</b> {eventInfo[3]}
+                </li>
+                <li className="list-group-item">
+                  <b>Data sfarsit:</b> {eventInfo[4]}
+                </li>
+                <li className="list-group-item">
+                  <b>Ora sfarsit:</b> {eventInfo[5]}
+                </li>
+                <li className="list-group-item">
+                  <b>Puieti de plantat:</b> {eventInfo[6].length}
+                </li>
+                <li className="list-group-item">
+                  <b>Locatie ridicare puieti:</b> {eventInfo[7]}
+                </li>
+                <li className="list-group-item">
+                  <b>Puieti nerevendicati:</b> {eventInfo[8]}
+                </li>
+                <li className="list-group-item">
+                  <b>Email organizator:</b> {eventInfo[9]}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   };
 
@@ -214,6 +243,8 @@ export default function Events(events) {
                     </div>
                     <div className="modal-body">
                       <form onSubmit={verificaCoduri(event[index + 1][0])}>
+                        <label htmlFor="email">Email-ul tau</label>
+                        <input type="email" id="email" name="email"></input>
                         <ul className="list-group">{inputElementsCoduri}</ul>
                         <button type="submit" className="btn btn-success">
                           Verifica codurile

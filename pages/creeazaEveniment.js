@@ -14,6 +14,7 @@ export default function CreeazaEveniment() {
     const datasfarsiteveniment = e.target.datasfarsiteveniment.value;
     const orasfarsiteveniment = e.target.orasfarsiteveniment.value;
     const numarpuietieveniment = e.target.numarpuietieveniment.value;
+    const email = e.target.email.value;
     const eveniment = {
       name: numeeveniment,
       location: locatieeveniment,
@@ -23,6 +24,7 @@ export default function CreeazaEveniment() {
       dateend: datasfarsiteveniment,
       hourend: orasfarsiteveniment,
       codenr: numarpuietieveniment,
+      email: email,
     };
     const res = await fetch("http://localhost:5000/api/create", {
       method: "POST",
@@ -180,6 +182,18 @@ export default function CreeazaEveniment() {
             name="numarpuietieveniment"
             aria-label="Numar puieti eveniment"
             aria-describedby="basic-addon8"
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon9">
+            Email
+          </span>
+          <input
+            type="email"
+            className="form-control"
+            name="email"
+            aria-label="Email"
+            aria-describedby="basic-addon9"
           />
         </div>
         <input type="submit" className="btn btn-success"></input>
