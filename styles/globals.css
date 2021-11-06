@@ -28,9 +28,18 @@ body {
 
 .expandos {
   flex-grow: 3;
+  border: 0;
 }
 
 .no-stretchy {
   flex-shrink: 0;
   border: 0;
+}
+
+.codulet {
+  margin-right: 10px;
+}
+
+#alertos {
+  margin-top: 15px;
 }

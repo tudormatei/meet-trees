@@ -1,6 +1,8 @@
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function creeazaEveniment() {
+export default function CreeazaEveniment() {
   const [coduri, setCoduri] = useState("");
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +35,11 @@ export default function creeazaEveniment() {
         for (let i = 0; i < res.codes.length; i++) tempArr[i] = i;
 
         const codulete = tempArr.map((cod, i) => {
-          return <li key={`cod${i + 1}`}>{res.codes[i]}</li>;
+          return (
+            <li key={`cod${i + 1}`} className="list-group-item">
+              {res.codes[i]}
+            </li>
+          );
         });
         setCoduri(codulete);
       });
@@ -43,10 +49,10 @@ export default function creeazaEveniment() {
     <div className="container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img
+          <Image
             src="/icon.png"
-            width="30"
-            height="30"
+            width={30}
+            height={30}
             className="d-inline-block align-top"
             alt=""
           />
@@ -66,6 +72,7 @@ export default function creeazaEveniment() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a className="nav-link" href="/">
                 Lista evenimente
               </a>
@@ -177,7 +184,16 @@ export default function creeazaEveniment() {
         </div>
         <input type="submit" className="btn btn-success"></input>
       </form>
-      <ul>{coduri}</ul>
+      <ul className="list-group list-group-flush">
+        {coduri && (
+          <div className="alert alert-success" id="alertos">
+            Atribuie pe cate un bilet cate un cod fiecarui puiet. Aceste coduri
+            vor fi folosite mai tarziu ca platforma sa verifice ca un utilizator
+            a plantat puietii.
+          </div>
+        )}
+        {coduri}
+      </ul>
     </div>
   );
 }

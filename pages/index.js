@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Events(events) {
   const [numarCoduriDeIntrodus, setNumarCoduriDeIntrodus] = useState(0);
@@ -36,14 +38,52 @@ export default function Events(events) {
       .then((res) => console.log(res));
   };
 
+  const updateEvent = (eventName) => async (e) => {
+    e.preventDefault();
+    let body = {
+      name: eventName,
+      amount: e.target.amountNou.value,
+    };
+    console.log(body);
+    const res = await fetch("http://localhost:5000/api/update", {
+      method: "POST",
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((res) => window.location.reload(false));
+  };
+
   const templateText = (eventInfo) => {
     return (
-      <>
-        Nume eveniment: {eventInfo[0]} cu locatie: {eventInfo[1]} la data de:{" "}
-        {eventInfo[2]} ora: {eventInfo[3]}, si se sfarseste la data de:{" "}
-        {eventInfo[4]} ora {eventInfo[5]}. Se vor planta: {eventInfo[6].length}{" "}
-        puieti. Puietii vor fi ridicati de la: {eventInfo[7]}
-      </>
+      <ul className="list-group">
+        <li className="list-group-item">
+          <b>Nume:</b> {eventInfo[0]}
+        </li>
+        <li className="list-group-item">
+          <b>Locatie:</b> {eventInfo[1]}
+        </li>
+        <li className="list-group-item">
+          <b>Data inceput:</b> {eventInfo[2]}
+        </li>
+        <li className="list-group-item">
+          <b>Ora inceput:</b> {eventInfo[3]}
+        </li>
+        <li className="list-group-item">
+          <b>Data sfarsit:</b> {eventInfo[4]}
+        </li>
+        <li className="list-group-item">
+          <b>Ora sfarsit:</b> {eventInfo[5]}
+        </li>
+        <li className="list-group-item">
+          <b>Puiteti de plantat:</b> {eventInfo[6].length}
+        </li>
+        <li className="list-group-item">
+          <b>Locatie ridicare puieti:</b> {eventInfo[7]}
+        </li>
+        <li className="list-group-item">
+          <b>Puieti nerevendicati:</b> {eventInfo[8]}
+        </li>
+      </ul>
     );
   };
 
@@ -78,7 +118,7 @@ export default function Events(events) {
                         className="modal-title"
                         id={`exampleModalLabel${index}`}
                       >
-                        Modal title for {event[index + 1][0]}
+                        {event[index + 1][0]}
                       </h5>
                       <button
                         type="button"
@@ -87,7 +127,17 @@ export default function Events(events) {
                         aria-label="Close"
                       ></button>
                     </div>
-                    <div className="modal-body">...</div>
+                    <div className="modal-body">
+                      <form onSubmit={updateEvent(event[index + 1][0])}>
+                        <label htmlFor="amountNou">
+                          Vreau sa plantez atati puieti
+                        </label>
+                        <input type="text" name="amountNou"></input>
+                        <button type="submit" className="btn btn-success">
+                          Trimite
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -104,7 +154,9 @@ export default function Events(events) {
     const inputElementsCoduri = tempArr.map((cod, i) => {
       return (
         <li key={`labelcod${i + 1}`} className="list-group-item">
-          <label htmlFor={`cod${i + 1}`}>Cod {i + 1} </label>
+          <label htmlFor={`cod${i + 1}`} className="codulet">
+            Cod {i + 1}
+          </label>
           <input type="text" name={`cod${i + 1}`} id={`cod${i + 1}`}></input>
         </li>
       );
@@ -139,7 +191,7 @@ export default function Events(events) {
                         className="modal-title"
                         id={`exampleModalLabel${index}`}
                       >
-                        Modal title for {event[index + 1][0]}
+                        {event[index + 1][0]}
                       </h5>
                       <button
                         type="button"
@@ -151,10 +203,9 @@ export default function Events(events) {
                     <div className="modal-body">
                       <form onSubmit={verificaCoduri(event[index + 1][0])}>
                         <ul className="list-group">{inputElementsCoduri}</ul>
-                        <input
-                          type="submit"
-                          value="Verifica codurile boss"
-                        ></input>
+                        <button type="submit" className="btn btn-success">
+                          Verifica codurile
+                        </button>
                       </form>
                       <label htmlFor="numarCoduriDeIntrodus">
                         Numar de coduri pe care le vreau sa le introduc
@@ -180,10 +231,10 @@ export default function Events(events) {
     <div className="container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img
+          <Image
             src="/icon.png"
-            width="30"
-            height="30"
+            width={30}
+            height={30}
             className="d-inline-block align-top"
             alt=""
           />
@@ -208,6 +259,7 @@ export default function Events(events) {
               </a>
             </li>
             <li className="nav-item">
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a className="nav-link" href="/creeazaEveniment">
                 Creeaza un eveniment
               </a>
