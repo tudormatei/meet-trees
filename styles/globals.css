@@ -4,13 +4,33 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-image: url("/background.jpg");
+  background-size: cover;
+  height: 100%;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+#__next {
+  height: 100%;
+}
+.input-group-text {
+  width: 200px;
+  justify-content: center;
 }
 
-* {
-  box-sizing: border-box;
+.container {
+  background-color: white;
+  height: 100%;
+}
+
+.stretchy {
+  justify-content: space-between;
+}
+
+.expandos {
+  flex-grow: 3;
+}
+
+.no-stretchy {
+  flex-shrink: 0;
+  border: 0;
 }
