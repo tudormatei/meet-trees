@@ -78,7 +78,6 @@ def create_event():
 
     name = content['name']
     location = content['location']
-    date = content['date']
     codenr = content['codenr']
     location_saplings = content['locationsaplings']
 
