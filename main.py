@@ -164,7 +164,6 @@ def update_event():
 
     name = content['name']
     amount = content['amount']
-    email = content['email']
 
     event = Events.query.filter_by(name=name).first()
     
