@@ -30,7 +30,6 @@ export default function Events(events) {
       email: e.target.email.value,
       codes: [],
     };
-    console.log(body);
     for (let i = 0; i < numarCoduriDeIntrodus; i++) {
       body.codes[i] = e.target[i + 1].value;
     }
@@ -60,7 +59,6 @@ export default function Events(events) {
       name: eventName,
       amount: e.target.amountNou.value,
     };
-    console.log(body);
     const res = await fetch("http://localhost:5000/api/update", {
       method: "POST",
       body: JSON.stringify(body),
