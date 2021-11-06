@@ -3,6 +3,7 @@ import numpy as np
 import os
 from PIL import Image
 from flask_sqlalchemy import SQLAlchemy
+import random
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
@@ -37,13 +38,26 @@ def get_event_data():
     events = Events.query.filter_by(tag='event').all()
 
     list = []
-    
+
     for event in events:
         dict = {}
         dict[event._id] = [event.name, event.location, event.date, event.codes]
         list.append(dict)
 
     return jsonify(list)
+
+
+def create_codes(codenr):
+    codes = []
+    str = ''
+    for y in range(codenr):
+        for x in range(8):
+            nr = random.randint(0,9)
+            str = f"{str}{nr}"
+        codes.append(str)
+        str = ''
+
+    return codes
 
 
 @app.route('/api/create', methods=['POST'])
@@ -53,9 +67,11 @@ def create_event():
     name = content['name']
     location = content['location']
     date = content['date']
-    codes_arr = content["code"]
+    codenr = content['codenr']
 
     exists = Events.query.filter_by(name=name).first()
+
+    codes_arr = create_codes(int(codenr))
 
     if not exists:
         event = Events(name, location, date, codes_arr)
