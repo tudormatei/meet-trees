@@ -152,7 +152,7 @@ def verify():
             email.points = '0'
             db.session.commit()
 
-        result = int(email.points) + 1
+        result = int(email.points) + (1 * len(y_code))
         email.points = f"{result}"
         db.session.commit()
 
