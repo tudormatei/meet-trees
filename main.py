@@ -24,9 +24,10 @@ class Events(db.Model):
 
     codes = db.Column("codes", db.PickleType, nullable=True)
     location_saplings = db.Column("location_saplings", db.String(100), unique=False)
+    remainingCodes = db.Column("remainingCodes", db.String(15), unique=False)
 
 
-    def __init__(self, name, location, dateStart, hourStart, dateEnd, hourEnd, codes, location_saplings):
+    def __init__(self, name, location, dateStart, hourStart, dateEnd, hourEnd, codes, location_saplings, remainingCodes):
         self.name = name
         self.tag = 'event'
         self.location = location
@@ -38,6 +39,7 @@ class Events(db.Model):
 
         self.codes = codes
         self.location_saplings = location_saplings
+        self.remainingCodes = remainingCodes
 
 
 @app.route('/')
@@ -53,7 +55,7 @@ def get_event_data():
 
     for event in events:
         dict = {}
-        dict[event._id] = [event.name, event.location, event.dateStart, event.hourStart, event.dateEnd, event.hourEnd, event.codes, event.location_saplings]
+        dict[event._id] = [event.name, event.location, event.dateStart, event.hourStart, event.dateEnd, event.hourEnd, event.codes, event.location_saplings, event.remainingCodes]
         list.append(dict)
 
     return jsonify(list)
@@ -91,7 +93,7 @@ def create_event():
     codes_arr = create_codes(int(codenr))
 
     if not exists:
-        event = Events(name, location, dateStart, hourStart, dateEnd, hourEnd, codes_arr, location_saplings)
+        event = Events(name, location, dateStart, hourStart, dateEnd, hourEnd, codes_arr, location_saplings, len(codes_arr))
         db.session.add(event)
         db.session.commit()
         
@@ -124,6 +126,24 @@ def verify():
     return {"status":"ok"}
 
 
+@app.route('/api/update', methods=['POST'])
+def update_event():
+    content = request.get_json(force=True)
+
+    name = content['name']
+    amount = content['amount']
+
+    event = Events.query.filter_by(name=name).first()
+    
+    print(event.remainingCodes)
+    if event.remainingCodes - amount > 0:
+        event.remainingCodes = event.remainingCodes - amount
+        print(event.remainingCodes)
+        db.session.commit()
+        return {'status':'ok','remainingCodes':event.remainingCodes}
+    else:
+        print(event.remainingCodes)
+        return {'status':'no'}
         
 
 if __name__ == '__main__':
