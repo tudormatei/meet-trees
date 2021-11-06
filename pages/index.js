@@ -4,6 +4,8 @@ import Link from "next/link";
 
 export default function Events(events) {
   const [numarCoduriDeIntrodus, setNumarCoduriDeIntrodus] = useState(0);
+  const [textVerificare, setTextVerificare] = useState("");
+  const [statusVerificare, setStatusVerificare] = useState("");
 
   const onChangeNumarCoduriDeIntrodus = (e) => {
     const nr = e.target.value;
@@ -35,7 +37,17 @@ export default function Events(events) {
       body: JSON.stringify(body),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (res.status === "not") {
+          setTextVerificare(
+            "Cel putin un cod introdus a fost incorect. Incearca din nou te rog."
+          );
+          setStatusVerificare("danger");
+        } else {
+          setTextVerificare("Codurile au fost verificate cu succes.");
+          setStatusVerificare("success");
+        }
+      });
   };
 
   const updateEvent = (eventName) => async (e) => {
@@ -270,6 +282,11 @@ export default function Events(events) {
       <h1>Lista evenimente viitoare</h1>
       <ul className="list-group">{evenimenteViitoare}</ul>
       <h1>Lista evenimente curente si trecute</h1>
+      {statusVerificare && (
+        <div className={`alert alert-${statusVerificare}`}>
+          {textVerificare}
+        </div>
+      )}
       <ul className="list-group">{evenimenteTrecute}</ul>
     </div>
   );
