@@ -120,21 +120,14 @@ def verify():
     name = content['name']
     email = content['email']
 
+
     all_codes = Events.query.filter_by(name=name).first()
     all_codes = all_codes.codes
-    
-    # found = None
-    # for x_code in all_codes:
-    #     found = False
-    #     for y_code in code:
-    #         print(f"{y_code} and {x_code}")
-    #         if x_code == y_code:
-    #             found = True
-    #     if found == False:
-    #         return {"status":"not"}
+
 
     if len(code) != len(set(code)):
         return {"status":"not"}
+
 
     bool = None
     for y_code in code:
@@ -158,7 +151,6 @@ def verify():
         result = int(email.points) + len(code)
         email.points = f"{result}"
         db.session.commit()
-
     else:
         print('email is not yet registered must create event first')
 
