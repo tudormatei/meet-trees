@@ -153,6 +153,7 @@ def verify():
         db.session.commit()
     else:
         print('email is not yet registered must create event first')
+        return {"status":"ok"}
 
     return {"status":"ok", "email":email.points}
 
