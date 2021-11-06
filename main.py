@@ -79,7 +79,7 @@ def create_event():
         db.session.commit()
         
         print('doesnt exist')
-        return {'status':'ok'}
+        return {'status':'ok','codes':codes_arr}
     else:
         print('event exists')
         return {'status':'not okay'}
