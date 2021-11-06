@@ -133,6 +133,9 @@ def verify():
     #     if found == False:
     #         return {"status":"not"}
 
+    if len(code) != len(set(code)):
+        return {"status":"not"}
+
     bool = None
     for y_code in code:
         bool = False
