@@ -83,7 +83,7 @@ def create_event():
 
     dateStart = content['datestart']
     hourStart = content['hourstart']
-    dateEnd = content['dateEnd']
+    dateEnd = content['dateend']
     hourEnd = content['hourend']
 
     exists = Events.query.filter_by(name=name).first()
