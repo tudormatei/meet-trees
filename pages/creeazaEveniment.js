@@ -4,7 +4,6 @@ export default function creeazaEveniment() {
     const numeeveniment = e.target.numeeveniment.value;
     const locatieeveniment = e.target.locatieeveniment.value;
     const dataeveniment = e.target.dataeveniment.value;
-    console.log(dataeveniment);
     const eveniment = {
       name: numeeveniment,
       location: locatieeveniment,
@@ -16,7 +15,6 @@ export default function creeazaEveniment() {
     })
       .then((res) => res.json())
       .then((res) => console.log(res));
-    console.log("ooga");
   };
   return (
     <form onSubmit={onSubmit}>
