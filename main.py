@@ -16,16 +16,26 @@ class Events(db.Model):
     name = db.Column("name", db.String(15), unique=True)
     tag = db.Column("tag", db.String(15), unique=False)
     location = db.Column("location", db.String(15), unique=False)
-    date = db.Column("date", db.String(15), unique=False)
+
+    dateStart = db.Column("dateStart", db.String(15), unique=False)
+    hourStart = db.Column("hourStart", db.String(15), unique=False)
+    dateEnd = db.Column("dateEnd", db.String(15), unique=False)
+    hourEnd = db.Column("hourEnd", db.String(15), unique=False)
+
     codes = db.Column("codes", db.PickleType, nullable=True)
     location_saplings = db.Column("location_saplings", db.String(100), unique=False)
 
 
-    def __init__(self, name, location, date, codes, location_saplings):
+    def __init__(self, name, location, dateStart, hourStart, dateEnd, hourEnd, codes, location_saplings):
         self.name = name
         self.tag = 'event'
         self.location = location
-        self.date = date
+
+        self.dateStart = dateStart
+        self.hourStart = hourStart
+        self.dateEnd = dateEnd
+        self.hourEnd = hourEnd
+
         self.codes = codes
         self.location_saplings = location_saplings
 
@@ -43,7 +53,7 @@ def get_event_data():
 
     for event in events:
         dict = {}
-        dict[event._id] = [event.name, event.location, event.date, event.codes, event.location_saplings]
+        dict[event._id] = [event.name, event.location, event.dateStart, event.hourStart, event.dateEnd, event.hourEnd, event.codes, event.location_saplings]
         list.append(dict)
 
     return jsonify(list)
@@ -72,12 +82,17 @@ def create_event():
     codenr = content['codenr']
     location_saplings = content['locationsaplings']
 
+    dateStart = content['datestart']
+    hourStart = content['hourstart']
+    dateEnd = content['dateEnd']
+    hourEnd = content['hourend']
+
     exists = Events.query.filter_by(name=name).first()
 
     codes_arr = create_codes(int(codenr))
 
     if not exists:
-        event = Events(name, location, date, codes_arr, location_saplings)
+        event = Events(name, location, dateStart, hourStart, dateEnd, hourEnd, codes_arr, location_saplings)
         db.session.add(event)
         db.session.commit()
         
