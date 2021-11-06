@@ -60,7 +60,7 @@ def get_event_data():
 
     for event in events:
         dict = {}
-        dict[event._id] = [event.name, event.location, event.dateStart, event.hourStart, event.dateEnd, event.hourEnd, event.codes, event.location_saplings, event.remainingCodes, event.email]
+        dict[event._id] = [event.name, event.location, event.dateStart, event.hourStart, event.dateEnd, event.hourEnd, event.codes, event.location_saplings, event.remainingCodes, event.email, event._id]
         list.append(dict)
 
     return jsonify(list)
