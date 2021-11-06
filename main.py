@@ -22,12 +22,15 @@ class Events(db.Model):
     dateEnd = db.Column("dateEnd", db.String(15), unique=False)
     hourEnd = db.Column("hourEnd", db.String(15), unique=False)
 
+    email = db.Column("email", db.String(20), unique=False)
+    points = db.Column("points", db.String(20), nullable=True)
+
     codes = db.Column("codes", db.PickleType, nullable=True)
     location_saplings = db.Column("location_saplings", db.String(100), unique=False)
     remainingCodes = db.Column("remainingCodes", db.String(15), unique=False)
 
 
-    def __init__(self, name, location, dateStart, hourStart, dateEnd, hourEnd, codes, location_saplings, remainingCodes):
+    def __init__(self, name, location, dateStart, hourStart, dateEnd, hourEnd, codes, location_saplings, remainingCodes, email):
         self.name = name
         self.tag = 'event'
         self.location = location
@@ -40,6 +43,8 @@ class Events(db.Model):
         self.codes = codes
         self.location_saplings = location_saplings
         self.remainingCodes = remainingCodes
+
+        self.email = email
 
 
 @app.route('/')
@@ -55,7 +60,7 @@ def get_event_data():
 
     for event in events:
         dict = {}
-        dict[event._id] = [event.name, event.location, event.dateStart, event.hourStart, event.dateEnd, event.hourEnd, event.codes, event.location_saplings, event.remainingCodes]
+        dict[event._id] = [event.name, event.location, event.dateStart, event.hourStart, event.dateEnd, event.hourEnd, event.codes, event.location_saplings, event.remainingCodes, event.email]
         list.append(dict)
 
     return jsonify(list)
@@ -68,7 +73,7 @@ def create_codes(codenr):
         for x in range(8):
             nr = random.randint(0,9)
             str = f"{str}{nr}"
-        codes.append(str)
+        codes.append(   str)
         str = ''
 
     return codes
@@ -88,12 +93,14 @@ def create_event():
     dateEnd = content['dateend']
     hourEnd = content['hourend']
 
+    email = content['email']
+
     exists = Events.query.filter_by(name=name).first()
 
     codes_arr = create_codes(int(codenr))
 
     if not exists:
-        event = Events(name, location, dateStart, hourStart, dateEnd, hourEnd, codes_arr, location_saplings, len(codes_arr))
+        event = Events(name, location, dateStart, hourStart, dateEnd, hourEnd, codes_arr, location_saplings, len(codes_arr), email)
         db.session.add(event)
         db.session.commit()
         
@@ -110,6 +117,7 @@ def verify():
     content = request.get_json(force=True)
     code = content['codes']
     name = content['name']
+    email = content['email']
 
     all_codes = Events.query.filter_by(name=name).first()
     all_codes = all_codes.codes
@@ -123,7 +131,20 @@ def verify():
         if found == False:
             return {"status":"not"}
 
-    return {"status":"ok"}
+
+    email = Events.query.filter_by(email=email).first()
+    if email:
+        if email.points == None:
+            email.points = '0'
+            db.session.commit()
+
+        result = int(email.points) + 1
+        email.points = f"{result}"
+        db.session.commit()
+    else:
+        print('email is not yet registered must create event first')
+
+    return {"status":"ok", "email":email.points}
 
 
 @app.route('/api/update', methods=['POST'])
@@ -132,6 +153,7 @@ def update_event():
 
     name = content['name']
     amount = content['amount']
+    email = content['email']
 
     event = Events.query.filter_by(name=name).first()
     
