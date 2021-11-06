@@ -85,6 +85,21 @@ def create_event():
         return {'status':'not okay'}
 
 
+
+@app.route('/api/verify', methods=['POST'])
+def verify():
+    content = request.get_json(force=True)
+    code = content['code']
+    name = content['name']
+
+    all_codes = Events.query.filter_by(name=name).first()
+    all_codes = all_codes.codes
+    for x_code in all_codes:
+        if code == x_code:
+            return {'status':'ok'}
+
+    return {'status':'not okay'}
+
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
