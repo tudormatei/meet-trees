@@ -136,7 +136,7 @@ def update_event():
     event = Events.query.filter_by(name=name).first()
     
     print(event.remainingCodes)
-    if int(event.remainingCodes) - int(amount) > 0:
+    if int(event.remainingCodes) - int(amount) => 0:
         result = int(event.remainingCodes) - int(amount)
         event.remainingCodes = f"{result}"
         print(event.remainingCodes)
